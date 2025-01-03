@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, onSnapshot, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
 
 function App() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]); // 取得したデータ
   const [editingPost, setEditingPost] = useState(null); // 現在編集中の投稿
 
   useEffect(() => {
@@ -18,19 +18,19 @@ function App() {
     onSnapshot(postData, (post) => {
       setPosts(post.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     });
-  }, []);
+  }, []); // 初回のみ実行
 
+  // 削除
   const handleDelete = async (id) => {
-
     try {
       const postRef = doc(db, "posts", id);
       await deleteDoc(postRef);
     } catch (error) {
       console.error("削除エラー:", error);
     }
-
   };
 
+  // 編集
   const handleEdit = (post) => {
     setEditingPost(post); // 編集する投稿をセット
   };
@@ -68,22 +68,24 @@ function Form({ editingPost, setEditingPost }) {
       setTitle("");
       setText("");
     }
-  }, [editingPost]);
+  }, [editingPost]); // editingPostが変更されたら実行
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (title.trim() === "" || text.trim() === "") {
       alert("タイトルとテキストを入力してください。");
       return;
-    }
+    } // タイトルとテキストが空の場合は処理を中断
 
     try {
+      // Firestoreにデータを保存する処理は try...catch ブロックの中で行われます
       if (editingPost) {
         // 編集モード
-        const postRef = doc(db, "posts", editingPost.id);
-        await updateDoc(postRef, { title, text });
+        const postRef = doc(db, "posts", editingPost.id); // 対象の投稿をFirestoreから取得
+        await updateDoc(postRef, { title, text }); // Firestoreのデータを更新
         // alert("投稿が更新されました！");
-        setEditingPost(null);
+        setEditingPost(null); // 編集モードを終了
+
       } else {
         // 新規作成モード
         const postRef = collection(db, "posts");
