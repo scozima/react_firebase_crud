@@ -1,0 +1,35 @@
+.container {
+  padding: 0 20px;
+}
+
+.space-y-md section:not(:last-of-type) {
+  margin-bottom: 10px;
+}
+
+section {
+  border: 1px solid #eaeaea;
+  padding: 25px;
+  border-radius: 4px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn01 {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 30px;
+  min-width: 100px;
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: .3s;
+  text-align: center;
+}
+
+.btn01:hover {
+  background: #000;
+  color: #fff;
+
+}
